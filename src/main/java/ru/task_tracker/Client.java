@@ -2,10 +2,7 @@ package ru.task_tracker;
 
 import ru.task_tracker.controller.Controller;
 
-import java.util.Arrays;
-import java.util.IllegalFormatFlagsException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Client {
 
@@ -34,29 +31,31 @@ public class Client {
 
     private void processDialog() {
         String input = scanner.nextLine();
+        String command = "";
         try {
-            String command = getCommand(input);
-
-            switch (command) {
-                case "add" -> System.out.println(controller.add(input));
-                case "list" -> System.out.println(controller.list());
-                case "edit" -> System.out.println(controller.edit(input));
-                case "delete" -> System.out.println(controller.delete(input));
-                case "filter" -> System.out.println(controller.filter(input));
-                case "sort" -> System.out.println(controller.sort());
-                case "exit" -> {
-                    return;
-                }
-                default -> System.out.println("Вы ввели несуществующую команду");
-            }
-        } catch (IllegalFormatFlagsException ex) {
-            System.out.println(ex.getMessage());
-            ex.printStackTrace();
+            command = getCommand(input);
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
 
-        processDialog();
+        while (!Objects.equals(command, "exit")) {
+            try {
+                switch (command) {
+                    case "add" -> System.out.println(controller.add(input));
+                    case "list" -> System.out.println(controller.list());
+                    case "edit" -> System.out.println(controller.edit(input));
+                    case "delete" -> System.out.println(controller.delete(input));
+                    case "filter" -> System.out.println(controller.filter(input));
+                    case "sort" -> System.out.println(controller.sort());
+                    case "help" -> System.out.println(help);
+                    default -> System.out.println("Вы ввели несуществующую команду");
+                }
+                input = scanner.nextLine();
+                command = getCommand(input);
+            } catch (IllegalArgumentException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
     }
 
     private String getCommand(String input) {
