@@ -1,5 +1,6 @@
 package ru.task_tracker;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import ru.task_tracker.enums.TaskStatus;
@@ -9,6 +10,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@EqualsAndHashCode
 public class Task {
     private String name;
     private String description;
@@ -24,17 +26,5 @@ public class Task {
 
     public String toString() {
         return "Задача: " + name + "\nОписание: " + description + "\nСтатус: " + status + "\nСрок: " + deadline + "\n";
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(getName(), task.getName()) && Objects.equals(getDescription(), task.getDescription()) && getStatus() == task.getStatus() && Objects.equals(getDeadline(), task.getDeadline());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getName(), getDescription(), getStatus(), getDeadline());
     }
 }
