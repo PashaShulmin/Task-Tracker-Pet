@@ -59,10 +59,10 @@ public class Client {
     }
 
     private String getCommand(String input) {
-        List<String> args = Arrays.stream(input.split(" ")).filter(s -> !s.isBlank()).toList();
-        if (args.isEmpty()) {
+        Optional<String> optionalCommand = Arrays.stream(input.split(" ")).filter(s -> !s.isBlank()).findFirst();
+        if (optionalCommand.isEmpty()) {
             throw new IllegalArgumentException("Вы ввели пустую команду");
         }
-        return args.get(0);
+        return optionalCommand.get();
     }
 }
