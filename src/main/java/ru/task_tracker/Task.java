@@ -18,6 +18,9 @@ public class Task {
     private LocalDateTime deadline;
 
     public Task(String name, String description, LocalDateTime deadline) {
+        if (LocalDateTime.now().isAfter(deadline)) {
+            throw new IllegalArgumentException("Дедлайн задачи не может быть в прошлом");
+        }
         this.name = name;
         this.description = description;
         this.status = TaskStatus.TODO;

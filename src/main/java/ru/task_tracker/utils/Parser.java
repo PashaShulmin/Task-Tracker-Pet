@@ -57,8 +57,11 @@ public class Parser {
         return params;
     }
 
-    public static String getArg(String input, String command) {
+    public static String getArg(String input, String command) throws IllegalArgumentException {
         int index = command.length();
+        if (input.length() == command.length()) {
+            throw new IllegalArgumentException("Вы ввели команду без аргументов");
+        }
         while (input.charAt(index) == ' ') {
             index++;
         }

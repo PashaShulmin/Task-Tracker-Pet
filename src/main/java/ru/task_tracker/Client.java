@@ -12,10 +12,11 @@ public class Client {
             \t\tЗадача создаётся в статусе "todo", deadline (срок выполнения) указывать в формате "uuuu-MM-dd HH:mm".
             \tПолучение списка задач - list
             \tРедактирование задачи - edit <task_name> -n <new_name> -d <new_description> -dl <new_deadline> -s <new_status>
-            \t\tСуществующие статусы: "todo", "in_progress", "done". new_deadline (срок выполнения) указывать в формате "uuuu-MM-dd HH:mm". Можно изменять аттрибуты задачи, пользуясь соответствующими флагами, не обязательно изменять все аттрибуты.
+            \t\tСуществующие статусы: "todo", "in_progress", "done". new_deadline (срок выполнения) указывать в формате "uuuu-MM-dd HH:mm".
             \tУдаление задачи - delete <task_name>
             \tФильтрация задач по статусу - filter <task_status>
-            \tСортировка задач по сроку выполнения - sort
+            \tСортировка задач по сроку выполнения - dsort
+            \tСортировка задач по статусу - ssort
             \tВыход из ситемы - exit
             \tСписок доступных команд - help
             """;
@@ -30,28 +31,27 @@ public class Client {
     }
 
     private void processDialog() {
-        String input = scanner.nextLine();
+        String input;
         String command = "";
-        try {
-            command = getCommand(input);
-        } catch (IllegalArgumentException ex) {
-            System.out.println(ex.getMessage());
-        }
 
-        while (!Objects.equals(command, "exit")) {
+        while (true) {
             try {
+                input = scanner.nextLine();
+                command = getCommand(input);
                 switch (command) {
                     case "add" -> System.out.println(controller.add(input));
                     case "list" -> System.out.println(controller.list());
                     case "edit" -> System.out.println(controller.edit(input));
                     case "delete" -> System.out.println(controller.delete(input));
                     case "filter" -> System.out.println(controller.filter(input));
-                    case "sort" -> System.out.println(controller.sort());
+                    case "dsort" -> System.out.println(controller.sortByDeadline());
+                    case "ssort" -> System.out.println(controller.sortByStatus());
                     case "help" -> System.out.println(help);
+                    case "exit" -> {
+                        return;
+                    }
                     default -> System.out.println("Вы ввели несуществующую команду");
                 }
-                input = scanner.nextLine();
-                command = getCommand(input);
             } catch (IllegalArgumentException ex) {
                 System.out.println(ex.getMessage());
             }

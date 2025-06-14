@@ -1,5 +1,6 @@
 package ru.task_tracker.repository;
 
+import lombok.Getter;
 import ru.task_tracker.Task;
 import ru.task_tracker.enums.TaskStatus;
 
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Repository {
+    @Getter
     private final Map<String, Task> tasks;
 
     public Repository() {
@@ -44,9 +46,5 @@ public class Repository {
         tasks.remove(name);
         task.setName(newName);
         return add(task);
-    }
-
-    public Collection<Task> list() {
-        return tasks.values();
     }
 }

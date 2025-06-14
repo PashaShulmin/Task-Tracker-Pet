@@ -27,8 +27,7 @@ public class Service {
     }
 
     public List<Task> list() {
-        Collection<Task> list = repository.list();
-        return new ArrayList<Task>(list);
+        return repository.getTasks().values().stream().toList();
     }
 
     public Task edit(String taskName, Map<String, String> args) {
@@ -63,14 +62,31 @@ public class Service {
     }
 
     public Task delete(String taskName) {
-        return repository.delete(taskName);
+        Task task = repository.delete(taskName);
+        if (task == null) {
+            throw new IllegalArgumentException("Вы ввели несуществующую задачу");
+        }
+        return task;
     }
 
     public List<Task> filter(String status) {
-        return repository.list().stream().filter(t -> t.getStatus() == TaskStatus.valueOf(status.toUpperCase())).toList();
+        return repository.getTasks().values()
+                .stream()
+                .filter(t -> t.getStatus() == TaskStatus.valueOf(status.toUpperCase()))
+                .toList();
     }
 
-    public List<Task> sort() {
-        return repository.list().stream().sorted(Comparator.comparing(Task::getDeadline)).toList();
+    public List<Task> sortByDeadline() {
+        return repository.getTasks().values()
+                .stream()
+                .sorted(Comparator.comparing(Task::getDeadline))
+                .toList();
+    }
+
+    public List<Task> sortByStatus() {
+        return repository.getTasks().values()
+                .stream()
+                .sorted(Comparator.comparing(Task::getStatus))
+                .toList();
     }
 }

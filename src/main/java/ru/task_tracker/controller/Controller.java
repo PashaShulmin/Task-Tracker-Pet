@@ -40,7 +40,11 @@ public class Controller {
         return service.filter(status);
     }
 
-    public List<Task> sort() {
-        return service.sort();
+    public List<Task> sortByDeadline() {
+        return service.sortByDeadline();
+    }
+
+    public List<Task> sortByStatus() {
+        return service.sortByStatus();
     }
 }

@@ -106,13 +106,26 @@ class ServiceTest {
     }
 
     @Test
-    void sort() {
+    void sortByDeadline() {
         service.add(name, description, deadline);
         service.add(newName, newDescription, newDeadline);
 
         service.edit(newName, params);
 
-        List<Task> sorted = service.sort();
+        List<Task> sorted = service.sortByDeadline();
+
+        assertEquals(task, sorted.get(0));
+        assertEquals(editedTask, sorted.get(1));
+    }
+
+    @Test
+    void sortByStatus() {
+        service.add(name, description, deadline);
+        service.add(newName, newDescription, newDeadline);
+
+        service.edit(newName, params);
+
+        List<Task> sorted = service.sortByStatus();
 
         assertEquals(task, sorted.get(0));
         assertEquals(editedTask, sorted.get(1));
